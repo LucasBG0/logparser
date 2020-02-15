@@ -1,0 +1,4 @@
+!.gitignore
+.env
+mysql/dbdata/**
+node_modules/*
