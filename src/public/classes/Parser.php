@@ -1,4 +1,5 @@
 <?php
+namespace LogParser\classes;
 
 /**
  * Classe responsável por percorrer o arquivo de log e identificar os dados de jogo
@@ -57,6 +58,11 @@ class Parser
 
 		return $this->games;
 
+	}
+
+	function getLogFile()
+	{
+		return $this->log_file;
 	}
 
 	function __destruct()

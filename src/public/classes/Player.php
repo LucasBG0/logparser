@@ -1,4 +1,5 @@
 <?php
+namespace LogParser\classes;
 
 /**
  * Classe responsável por armazenar o nome e a quantidade de kills do jogador
@@ -14,12 +15,12 @@ class Player
 		$this->name = $name;
 	}
 
-	function incrementKill()
+	function incrementKill():void
 	{
 		$this->kills++;
 	}
 
-	function decrementKill()
+	function decrementKill():void
 	{	
 		$this->kills--;
 	}

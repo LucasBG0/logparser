@@ -1,4 +1,5 @@
 <?php
+namespace LogParser\classes;
 
 /**
  * Classe responsável por armazenar os dados do jogo
@@ -19,7 +20,7 @@ class Game
 		$this->time_start = $time_start;
 	}
 
-	function addPlayer(Player $player1, Player $player2)
+	function addPlayer(Player $player1, Player $player2):void
 	{
 		if ( !$player1 || !$player2 )
 			return;
@@ -68,12 +69,12 @@ class Game
 		}
 	}
 
-	function incrementTotalKills()
+	function incrementTotalKills():void
 	{
 		$this->total_kills++;
 	}
 
-	function setTimeFinish($time_finish)
+	function setTimeFinish($time_finish):void
 	{
 		$this->time_finish = $time_finish;
 	}
