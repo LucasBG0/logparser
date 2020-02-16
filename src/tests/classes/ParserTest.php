@@ -21,7 +21,7 @@ class ParserTest extends TestCase
 	}
 
 	// verificar se o arquivo é um recurso
-	function testLogFileIsResource()
+	public function testLogFileIsResource()
 	{
 		$parser = new Parser(self::PARSER_LOG_FILE);
 		
@@ -31,7 +31,7 @@ class ParserTest extends TestCase
 	}
 
 	//verificar se o método countGames() retorna um array com apenas objetos
-	function testReturnIsObject()
+	public function testReturnIsObject()
 	{
 		$parser = new Parser(self::PARSER_LOG_FILE);
 
