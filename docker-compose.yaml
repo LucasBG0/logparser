@@ -3,7 +3,10 @@ services:
 
   #PHP Service
   app:
-    image: php:7.4-fpm
+    build:
+      context: ./
+      dockerfile: ./php/Dockerfile
+    image: phpcomposer/php:7.4-fpm
     container_name: ${APP_NAME}-app
     restart: unless-stopped
     tty: true

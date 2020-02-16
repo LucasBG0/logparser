@@ -2,7 +2,8 @@
 A aplicação foi construida a partir de containers do Docker. Serão criados 3 containers:
 
 * *Nginx* ou parser-webserver (Servidor web)
-* *PHP-FPM* ou parser-app (aplicação com PHP 7.4 e PHP-FPM - *FastCGI Process Manager* )
+* *PHP-FPM* ou parser-app (aplicação com PHP-FPM 7.4 - *FastCGI Process Manager* )
+	O composer já vem instalado no container acima. Para conseguirmos utilizar o PHPunit para realizar a suíte de testes.
 * *MySql* ou parser-mysql (servidor de banco de dados MySql)
 
 
@@ -13,11 +14,16 @@ A aplicação foi construida a partir de containers do Docker. Serão criados 3 
 			|-- docker-compose.yml (arquivo de configuração docker)
 			|-- nginx (diretório do servidor web nginx)
 			|-- README.md (documentação do teste)			
-			|-- src
+			|-- src (arquivos do composer, PHPunit e diretório da aplicação)
 				|
 				|-- public (diretório da aplicação)
 					|
 					|-- código-fonte do parser
+				|-- test (Suíte de testes - PHPunit)
+				|-- phpunit.xml.dist (arquivo de configuração PHPunit)
+				|-- composer.json (Dependências do projeto)
+				|-- composer.lock (Dependências do projeto com as versões exatas)
+					
 
 
 ## Pré-requisitos para o setup:
