@@ -1,9 +1,9 @@
 # Resposta do teste Quake log parser
 A aplicação foi construida a partir de containers do Docker. Serão criados 3 containers:
 
-	* Nginx ou parser-webserver (Servidor web)
-	* PHP-FPM ou parser-app (aplicação com PHP 7.4 e PHP-FPM `FastCGI Process Manager` )
-	* MySql ou parser-mysql (servidor de banco de dados MySql)
+* *Nginx* ou parser-webserver (Servidor web)
+* *PHP-FPM* ou parser-app (aplicação com PHP 7.4 e PHP-FPM - *FastCGI Process Manager* )
+* *MySql* ou parser-mysql (servidor de banco de dados MySql)
 
 
 ## Estrutura de diretórios
@@ -29,23 +29,23 @@ A aplicação foi construida a partir de containers do Docker. Serão criados 3 
 ### Instalação
 1. Clone o repositório para o seu ambiente de desenvolvimento.
 
-2. Vá para a raiz do projeto crie o arquivo das variaveis de ambiente a partir do arquivo `.env.example.`. Se estiver usando um terminal linux utilize o comando para copiar:
+2. Vá para a raiz do projeto e crie o arquivo das variaveis de ambiente a partir do arquivo `.env.example`. Se estiver usando um terminal linux utilize o comando para copiar:
 
-	cp .env.example .env
+    cp.env.example .env
 
 3. Caso queira, altere as váriaveis de ambiente no arquivo copiado `.env`. É nesse arquivo que as credenciais do banco de dados estão definidas.
 
 4. Para criar os containers, utilize o comando:
 
-	docker-compose up -d
+    docker-compose up -d
 
 5. Para confirmar o processo de criação dos containers, rode o comando:
 
-	docker ps
+    docker ps
 
 **Obs.:** Caso algo de errado, você pode forçar a recriação com o comando:
 	
-	docker-compose up --force-recreate
+    docker-compose up --force-recreate
 
 6. Acesse o url da aplicação: 
 
@@ -54,11 +54,11 @@ A aplicação foi construida a partir de containers do Docker. Serão criados 3 
 ### Compilar arquivos .scss com o Sass
 1. Se você está usando o Node.js, pode instalar o Sass usando o npm.
 
-	npm install -g sass
+    npm install -g sass
 
 2. Assista a folhas de estilo e recompile quando elas mudarem:
 
-	sass --watch src/public/static/scss:src/public/static/css
+    sass --watch src/public/static/scss:src/public/static/css
 
 
 # Docker
