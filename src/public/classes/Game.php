@@ -44,20 +44,20 @@ class Game
 			$this->players[] = $vitima;	
 		}
 		else{
-			foreach ($this->kills as $player) {
-				if ( $player->getName() == $assassino && $assassino != $vitima ){					
+			foreach ($this->kills as &$player) {
+				if ( $assassino != $vitima && $player->getName() == $assassino ){					
 					$player->incrementKill();
 				}
 
-				if ( $player->getName() == $vitima && $assassino == 'world' ) {
+				if ( $assassino == 'world' && $player->getName() == $vitima) {
 					$player->decrementKill();
 				}
 
-				if (!in_array($assassino, $this->players)) {
+				if ( !in_array($assassino, $this->players) ) {
 					$this->players[] = $assassino;
 					$this->kills[] = $player1;
 				}
-				if (!in_array($vitima, $this->players)) {
+				if ( !in_array($vitima, $this->players) ) {
 					$this->players[] = $vitima;
 					$this->kills[] = $player2;
 				}				
