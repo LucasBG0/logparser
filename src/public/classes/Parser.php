@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ * Classe responsável por percorrer o arquivo de log e identificar os dados de jogo
  */
 class Parser
 {
@@ -18,33 +18,38 @@ class Parser
 	function countGames()
 	{
 		$linha = 1;
+		$game_id = 0;
 
-		while (!feof($this->log_file)){
+		while ( !feof($this->log_file) )
+		{
 			$buffer = fgets($this->log_file, 4096); // lê uma linha do arquivo de log
 			
-			if ($linha > 1){
-
+			if ( $linha > 1 )
+			{
 				// Incio do jogo
-				if(preg_match('/(\d{1,2}:\d{2}) InitGame:/', $buffer, $match_time_start)){
+				if ( preg_match('/(\d{1,3}:\d{2}) InitGame:/', $buffer, $match_time_start) )
+				{
 					$game_id++;
 					$game = new Game($game_id, $match_time_start[1]);
 					$this->games[] = $game;
 				}
 
-				// Pega quem matou quem e por qual arma
-				if(preg_match('/Kill: \d+\s\d+\s\d+: (<?[\w\s]+>?) killed ([\w\s]+) by (\w+)/', $buffer, $matches)){
+				// Quem matou quem e por qual arma
+				if( preg_match('/Kill: \d+\s\d+\s\d+: (<?[\w\s]+>?) killed ([\w\s]+) by (\w+)/', $buffer, $matches_players_and_gun) )
+				{
 					$game->incrementTotalKills();
-					$assassino = ($matches[1] == '<world>') ? 'world' : $matches[1];
-					$vitima = $matches[2];
+					$assassino = ($matches_players_and_gun[1] == '<world>') ? 'world' : $matches_players_and_gun[1];
+					$vitima = $matches_players_and_gun[2];
 					$player1 = new Player($assassino);
 					$player2 = new Player($vitima);
 
+					// método responsável pela mecânica de incrementar e decrementar as kills
 					$game->addPlayer($player1, $player2);
 				}
 
 				// Fim do jogo
-				if(preg_match('/(\d{1,2}:\d{2}) ShutdownGame:/', $buffer))
-					$game_finish++;
+				if( preg_match('/(\d{1,3}:\d{2}) ShutdownGame:/', $buffer, $match_time_finish) )
+					$game->setTimeFinish($match_time_finish[1]);
 
 			}
 			$linha++;

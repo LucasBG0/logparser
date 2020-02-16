@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ * Classe responsável por armazenar os dados do jogo
  */
 class Game
 {
@@ -28,13 +28,15 @@ class Game
 		$vitima = $player2->getName();
 
 		// checa se o nome do player existe no atributo players. Se existir, ele não é incluido novamente e a kill do player existente é incrementada.
-		if (!isset($this->kills)) {
+		if ( !isset($this->kills) ) {
 
-			if ( $assassino != $vitima ){					
+			if ( $assassino != $vitima )
+			{					
 				$player1->incrementKill();
 			}
 
-			if ( $assassino == 'world' ) {
+			if ( $assassino == 'world' )
+			{
 				$player2->decrementKill();
 			}	
 
@@ -44,20 +46,21 @@ class Game
 			$this->players[] = $vitima;	
 		}
 		else{
-			foreach ($this->kills as &$player) {
-				if ( $assassino != $vitima && $player->getName() == $assassino ){					
+			foreach ( $this->kills as &$player )
+			{
+				if ( $assassino != $vitima && $player->getName() == $assassino )				
 					$player->incrementKill();
-				}
 
-				if ( $assassino == 'world' && $player->getName() == $vitima) {
+				if ( $assassino == 'world' && $player->getName() == $vitima)
 					$player->decrementKill();
-				}
 
-				if ( !in_array($assassino, $this->players) ) {
+				if ( !in_array($assassino, $this->players) )
+				{
 					$this->players[] = $assassino;
 					$this->kills[] = $player1;
 				}
-				if ( !in_array($vitima, $this->players) ) {
+				if ( !in_array($vitima, $this->players) )
+				{
 					$this->players[] = $vitima;
 					$this->kills[] = $player2;
 				}				
@@ -68,5 +71,10 @@ class Game
 	function incrementTotalKills()
 	{
 		$this->total_kills++;
+	}
+
+	function setTimeFinish($time_finish)
+	{
+		$this->time_finish = $time_finish;
 	}
 }

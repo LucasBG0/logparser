@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ * Classe responsável por armazenar o nome e a quantidade de kills do jogador
  */
 class Player
 {
