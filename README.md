@@ -40,6 +40,7 @@ A aplicação foi construida a partir de containers do Docker. Serão criados 3 
     cp.env.example .env
 
 3. Caso queira, altere as váriaveis de ambiente no arquivo copiado `.env`. É nesse arquivo que as credenciais do banco de dados estão definidas.
+**Obs.:** Se as credenciais de acesso ao banco de dados forem alteradas, vai ser necessário alterar as variáveis no arquivo src/public/classes/Database.php também. O host para se conectar no banco é o nome do container do MySQL.
 
 4. Para criar os containers, utilize o comando:
 

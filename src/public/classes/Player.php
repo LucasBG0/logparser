@@ -10,27 +10,27 @@ class Player
 	private $name;
 	private $kills = 0;
 	
-	function __construct($name)
+	public function __construct($name)
 	{
 		$this->name = $name;
 	}
 
-	function incrementKill():void
+	public function incrementKill():void
 	{
 		$this->kills++;
 	}
 
-	function decrementKill():void
+	public function decrementKill():void
 	{	
 		$this->kills--;
 	}
 
-	function getName()
+	public function getName()
 	{
 		return $this->name;
 	}
 
-	function getKills()
+	public function getKills()
 	{
 		return $this->kills;
 	}

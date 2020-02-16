@@ -14,13 +14,13 @@ class Game
 	private $time_finish;
 	private $kills_by_mens;
 	
-	function __construct($game_id, $time_start)
+	public function __construct($game_id, $time_start)
 	{
 		$this->game_id = $game_id;
 		$this->time_start = $time_start;
 	}
 
-	function addPlayer(Player $player1, Player $player2):void
+	public function addPlayer(Player $player1, Player $player2):void
 	{
 		if ( !$player1 || !$player2 )
 			return;
@@ -28,25 +28,8 @@ class Game
 		$assassino = $player1->getName();
 		$vitima = $player2->getName();
 
-		// checa se o nome do player existe no atributo players. Se existir, ele não é incluido novamente e a kill do player existente é incrementada.
-		if ( !isset($this->kills) ) {
-
-			if ( $assassino != $vitima )
-			{					
-				$player1->incrementKill();
-			}
-
-			if ( $assassino == 'world' )
-			{
-				$player2->decrementKill();
-			}	
-
-			$this->kills[] = $player1;
-			$this->kills[] = $player2;
-			$this->players[] = $assassino;
-			$this->players[] = $vitima;	
-		}
-		else{
+		// checa se o nome do player existe no atributo kills. Se existir, ele não é incluido novamente e a kill do player existente é incrementada.
+		if ( isset($this->kills) ) {
 			foreach ( $this->kills as &$player )
 			{
 				if ( $assassino != $vitima && $player->getName() == $assassino )				
@@ -65,17 +48,51 @@ class Game
 					$this->players[] = $vitima;
 					$this->kills[] = $player2;
 				}				
-			}			
+			}
+			return;
 		}
+
+		if ( $assassino != $vitima )
+		{					
+			$player1->incrementKill();
+		}
+
+		if ( $assassino == 'world' )
+		{
+			$player2->decrementKill();
+		}	
+
+		$this->kills[] = $player1;
+		$this->kills[] = $player2;
+		$this->players[] = $assassino;
+		$this->players[] = $vitima;			
 	}
 
-	function incrementTotalKills():void
+	public function incrementTotalKills():void
 	{
 		$this->total_kills++;
 	}
 
-	function setTimeFinish($time_finish):void
+	public function setTimeFinish($time_finish):void
 	{
 		$this->time_finish = $time_finish;
+	}
+
+	// Checa se o motivo da morte já existe no atributo kills_by_mens, se existir, as kills desse objeto é incrementada.
+	public function setKillsByMens(Player $k)
+	{
+		if ( isset($this->kills_by_mens) ) 
+		{
+			foreach ($this->kills_by_mens as &$motivo_morte) 
+			{
+				if ($motivo_morte->getName() == $k->getName())
+				{
+					$motivo_morte->incrementKill();
+					return;						
+				}
+			}
+		}
+		$k->incrementKill();
+		$this->kills_by_mens[] = $k;		
 	}
 }

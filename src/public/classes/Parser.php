@@ -10,13 +10,13 @@ class Parser
 	private $log_file;
 	private $games;
 	
-	function __construct(string $filename)
+	public function __construct(string $filename)
 	{
 		$this->filename = $filename;
 		$this->log_file = fopen($filename, 'r');
 	}
 
-	function countGames()
+	public function countGames()
 	{
 		$linha = 1;
 		$game_id = 0;
@@ -39,10 +39,13 @@ class Parser
 				if( preg_match('/Kill: \d+\s\d+\s\d+: (<?[\w\s]+>?) killed ([\w\s]+) by (\w+)/', $buffer, $matches_players_and_gun) )
 				{
 					$game->incrementTotalKills();
+
 					$assassino = ($matches_players_and_gun[1] == '<world>') ? 'world' : $matches_players_and_gun[1];
 					$vitima = $matches_players_and_gun[2];
+					$motivo_morte = $matches_players_and_gun[3];
 					$player1 = new Player($assassino);
 					$player2 = new Player($vitima);
+					$game->setKillsByMens( new Player($motivo_morte) );
 
 					// método responsável pela mecânica de incrementar e decrementar as kills
 					$game->addPlayer($player1, $player2);
@@ -60,12 +63,12 @@ class Parser
 
 	}
 
-	function getLogFile()
+	public function getLogFile()
 	{
 		return $this->log_file;
 	}
 
-	function __destruct()
+	public function __destruct()
 	{
 		fclose($this->log_file);
 	}
