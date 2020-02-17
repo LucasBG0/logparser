@@ -4,13 +4,16 @@ A aplicação foi construida a partir de containers do Docker. Serão criados 3 
 * *Nginx* ou parser-webserver (Servidor web)
 * *PHP-FPM* ou parser-app (aplicação com PHP-FPM 7.4 - *FastCGI Process Manager* )
 	O composer já vem instalado no container acima. Para conseguirmos utilizar o PHPunit para realizar a suíte de testes.
-* *MySql* ou parser-mysql (servidor de banco de dados MySql)
+* *MySql* ou parser-mysql (servidor de banco de dados MySql) - As tabelas do banco de dados são criadas automaticamente, porém se necessitar, tem um dump.sql no diretório `mysql/dump.sql`.
 
 
 ## Estrutura de diretórios
 		logparser
 			|
 			|-- mysql (arquivos e configs do banco de dados)
+				|
+				|-- dbdata (arquivos binários do mysql)
+				|-- dump.sql (Dump das tabelas com os dados)
 			|-- docker-compose.yml (arquivo de configuração docker)
 			|-- nginx (diretório do servidor web nginx)
 			|-- README.md (documentação do teste)			
@@ -18,7 +21,16 @@ A aplicação foi construida a partir de containers do Docker. Serão criados 3 
 				|
 				|-- public (diretório da aplicação)
 					|
-					|-- código-fonte do parser
+					|-- classes (as classes que são utilizadas)
+						|
+						|-- Database (classes responsáveis pela conexão e CRUDS)
+						|-- Game.php (Classe com dados das partidas)
+						|-- Parser.php (Classe principal responsável por percorrer o log)
+						|-- Player.php (Classe com o modelo do Player. Usado para um jogador ou uma arma
+					|-- static (diretório dos arquivos estáticos. Ex: css, scss, js, svg, gif)
+					|-- controller.php (controlador de ajax requests)
+					|-- loader_classes.php (carrega as classes)
+					|-- index.php (Arquivo principal index que chama todos os outros arquivos)
 				|-- test (Suíte de testes - PHPunit)
 				|-- phpunit.xml.dist (arquivo de configuração PHPunit)
 				|-- composer.json (Dependências do projeto)
