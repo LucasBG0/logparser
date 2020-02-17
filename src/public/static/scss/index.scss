@@ -5,8 +5,20 @@ body{
 		width: 500px;
 		margin: auto;
 		.ranking{
-			h1{
+			span{
 				color: #000000;
+				font-size: 2rem;
+				font-weight: bold;
+				padding: 2rem 0;
+				&:hover{
+					background-color: #f7a600;
+				}
+				&:nth-child(1){
+					float: left;
+				}
+				&:nth-child(2){
+					float: right;
+				}				
 			}
 			input{
 				margin-bottom: 1.5rem;

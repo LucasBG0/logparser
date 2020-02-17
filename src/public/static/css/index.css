@@ -6,8 +6,20 @@ body .container {
   width: 500px;
   margin: auto;
 }
-body .container .ranking h1 {
+body .container .ranking span {
   color: #000000;
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 2rem 0;
+}
+body .container .ranking span:hover {
+  background-color: #f7a600;
+}
+body .container .ranking span:nth-child(1) {
+  float: left;
+}
+body .container .ranking span:nth-child(2) {
+  float: right;
 }
 body .container .ranking input {
   margin-bottom: 1.5rem;

@@ -234,11 +234,11 @@ class Schema
 		}		
 	}
 
-	public static function queryPlayer($player_name)
+	public static function queryPlayer($player_name, $table)
 	{
 		try 
 		{
-			$sql = 'SELECT player_name, kills FROM players WHERE player_name like :player_name';
+			$sql = 'SELECT player_name, kills FROM '. $table. ' WHERE player_name like :player_name';
 			$stmt = Connection::getInstance()->prepare($sql);
 			$val = "%$player_name%"; 
 			$stmt->bindParam(':player_name', $val , PDO::PARAM_STR); 			
@@ -269,10 +269,24 @@ class Schema
 	{
 		try 
 		{
-			$sql = 'SELECT game_id, sum(kills) FROM KILLSBYMENS GROUP BY player_name';
-			$result = Connection::getInstance()->query($sql);
-			$lista = $result->fetchAll(PDO::FETCH_ASSOC);
-			return $lista;
+			$sql = 'SELECT player_name, kills FROM KILLSBYMENS order by kills desc';
+			$stmt = Connection::getInstance()->query($sql);
+			#$lista = $result->fetchAll(PDO::FETCH_ASSOC);
+			
+			$Count = $stmt->rowCount(); 
+			//echo " Total Records Count : $Count .<br>" ;
+			     
+			$result ="" ;
+			if ($Count  > 0)
+			{
+				while($data=$stmt->fetch(PDO::FETCH_ASSOC)) 
+				{
+					$negativo = (boolval($data['kills'] < 0)) ? ' class="negativo"' : '';
+					$result = $result .'<tr><td>' . $data['player_name'] . '
+					</td><td'.$negativo . '>' . $data['kills'] . '</td></tr>';					  
+				}
+			return $result;
+			}			
 		} 
 		catch (Exception $e) 
 		{
