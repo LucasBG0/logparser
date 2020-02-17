@@ -35,9 +35,13 @@ class Schema
 			);';
 
 			$create_table_players = 'CREATE TABLE IF NOT EXISTS PLAYERS(
-			    player_id integer PRIMARY KEY, 
+			    player_id integer NOT NULL AUTO_INCREMENT,
+			    in_game_id integer, 
 			    kills integer, 
-			    player_name text
+			    player_name text,
+			    game_id integer,
+			    PRIMARY KEY (player_ID),
+			    FOREIGN KEY (game_id) REFERENCES GAMES(game_id)
 			);';
 
 			$create_table_killsbymens = 'CREATE TABLE IF NOT EXISTS KILLSBYMENS(
@@ -82,35 +86,52 @@ class Schema
 			$p_sql->bindValue(':time_start', $game->getTimeStart());
 			$p_sql->bindValue(':time_finish', $game->getTimeFinish());
 			$result = $p_sql->execute();
+			self::setPlayerDB($game);
 			return $result;
 		}
-		catch (PDOException $e)
+		catch (\PDOException $e)
 		{
 			echo $e->getMessage();
 		}
 	}
 
-	public static function setPlayerDB(Player $player)
+	public static function setPlayerDB(Game $game)
 	{
+		$all_players = $game->getKills();
+		if (!is_array($all_players))
+			return;
+
 		try
 		{
-			$sql = 'INSERT INTO player (
-				game_id,
-				total_kills,
-				time_start,
-				time_finish)
-				VALUES (
-				:game_id,
-				:total_kills,
-				:time_start,
-				:time_finish)';
-			$p_sql = Connection::getInstance()->prepare($sql);
-			$p_sql->bindValue(':game_id', $player->getName());
-			$p_sql->bindValue(':total_kills', $player->getName());
-			$p_sql->bindValue(':time_start', $player->getName());
-			$p_sql->bindValue(':time_finish', $player->getName());
+			$sql_verify = 'SELECT * FROM Players WHERE player_id=?';
+			if (self::checkValueExists(1, $sql_verify))
+			{
+				#return;
+			}
+
+			#die(var_dump($all_players));
+			foreach ($all_players as $player) 
+			{
+				$sql = 'INSERT INTO Players (
+					in_game_id,
+					kills,
+					player_name,
+					game_id)
+					VALUES (
+					:in_game_id,
+					:kills,
+					:player_name,
+					:game_id)';
+				$p_sql = Connection::getInstance()->prepare($sql);
+				$p_sql->bindValue(':in_game_id', $player->getInGameId());
+				$p_sql->bindValue(':kills', $player->getKills());
+				$p_sql->bindValue(':player_name', $player->getName());
+				$p_sql->bindValue(':game_id', $game->getGameId());
+				$result = $p_sql->execute();				
+			}
+			return $result;
 		}
-		catch (PDOException $e)
+		catch (\PDOException $e)
 		{
 			echo $e->getMessage();
 		}		

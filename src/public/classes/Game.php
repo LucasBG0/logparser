@@ -1,6 +1,6 @@
 <?php
 namespace LogParser\classes;
-
+use LogParser\classes\Database\Schema;
 /**
  * Classe responsável por armazenar os dados do jogo
  */
@@ -60,7 +60,11 @@ class Game
 		if ( $assassino == 'world' )
 		{
 			$player2->decrementKill();
-		}	
+		}
+
+
+		#$player1->setPlayerId(1);
+		#$player2->setPlayerId(1);
 
 		$this->kills[] = $player1;
 		$this->kills[] = $player2;
@@ -114,5 +118,10 @@ class Game
 	public function getTimeFinish()
 	{
 		return $this->time_finish;
-	}	
+	}
+
+	public function getKills()
+	{
+		return $this->kills;
+	}
 }

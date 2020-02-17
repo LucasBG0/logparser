@@ -18,7 +18,7 @@ class Parser
 		$this->log_file = fopen($filename, 'r');
 	}
 
-	public function countGames()
+	public function countGames():void
 	{
 		$linha = 1;
 		$game_id = 0;
@@ -38,16 +38,21 @@ class Parser
 				}
 
 				// Quem matou quem e por qual arma
-				if( preg_match('/Kill: \d+\s\d+\s\d+: (<?[\w\s]+>?) killed ([\w\s]+) by (\w+)/', $buffer, $matches_players_and_gun) )
+				if( preg_match('/Kill: (\d+)\s(\d+)\s(\d+): (<?[\w\s]+>?) killed ([\w\s]+) by (\w+)/', $buffer, $matches_players_and_gun) )
 				{
 					$game->incrementTotalKills();
 
-					$assassino = ($matches_players_and_gun[1] == '<world>') ? 'world' : $matches_players_and_gun[1];
-					$vitima = $matches_players_and_gun[2];
-					$motivo_morte = $matches_players_and_gun[3];
-					$player1 = new Player($assassino);
-					$player2 = new Player($vitima);
-					$game->setKillsByMens( new Player($motivo_morte) );
+					//definição de variáveis baseado na captura do preg_match
+					$player1_id = $matches_players_and_gun[1];
+					$player2_id = $matches_players_and_gun[2]; 
+					$arma_id = $matches_players_and_gun[3]; 
+					$assassino = ($matches_players_and_gun[4] == '<world>') ? 'world' : $matches_players_and_gun[4];
+					$vitima = $matches_players_and_gun[5];
+					$motivo_morte = $matches_players_and_gun[6];
+
+					$player1 = new Player($assassino, $player1_id);
+					$player2 = new Player($vitima, $player2_id);
+					$game->setKillsByMens( new Player($motivo_morte, $arma_id) );
 
 					// método responsável pela mecânica de incrementar e decrementar as kills
 					$game->addPlayer($player1, $player2);
@@ -58,14 +63,14 @@ class Parser
 				{
 					$game->setTimeFinish($match_time_finish[1]);
 					// Salva a partida no banco de dados na tabela GAMES
-					var_dump(Schema::setGameDB($game));
+					Schema::setGameDB($game);
 				}
 
 			}
 			$linha++;
 		}
 
-		return $this->games;
+		#return $this->games;
 
 	}
 

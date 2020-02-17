@@ -7,12 +7,14 @@ namespace LogParser\classes;
 class Player
 {
 
-	private $name;
+	private $player_name;
 	private $kills = 0;
+	private $in_game_id = 0;
 	
-	public function __construct($name)
+	public function __construct($player_name, $player_id)
 	{
-		$this->name = $name;
+		$this->player_name = $player_name;
+		$this->in_game_id = $player_id;
 	}
 
 	public function incrementKill():void
@@ -27,12 +29,17 @@ class Player
 
 	public function getName()
 	{
-		return $this->name;
+		return $this->player_name;
 	}
 
 	public function getKills()
 	{
 		return $this->kills;
+	}
+
+	public function getInGameId()
+	{
+		return $this->in_game_id;
 	}
 
 }
