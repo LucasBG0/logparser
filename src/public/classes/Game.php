@@ -62,10 +62,6 @@ class Game
 			$player2->decrementKill();
 		}
 
-
-		#$player1->setPlayerId(1);
-		#$player2->setPlayerId(1);
-
 		$this->kills[] = $player1;
 		$this->kills[] = $player2;
 		$this->players[] = $assassino;
@@ -98,6 +94,11 @@ class Game
 		}
 		$k->incrementKill();
 		$this->kills_by_mens[] = $k;		
+	}
+
+	public function getKillsByMens()
+	{
+		return $this->kills_by_mens;
 	}
 
 	public function getGameId()

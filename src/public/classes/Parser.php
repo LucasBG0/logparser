@@ -18,7 +18,7 @@ class Parser
 		$this->log_file = fopen($filename, 'r');
 	}
 
-	public function countGames():void
+	public function countGames()
 	{
 		$linha = 1;
 		$game_id = 0;
@@ -70,7 +70,7 @@ class Parser
 			$linha++;
 		}
 
-		#return $this->games;
+		return $this->games;
 
 	}
 

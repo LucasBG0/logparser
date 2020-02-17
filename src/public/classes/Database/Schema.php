@@ -45,10 +45,11 @@ class Schema
 			);';
 
 			$create_table_killsbymens = 'CREATE TABLE IF NOT EXISTS KILLSBYMENS(
-			    id integer NOT NULL PRIMARY KEY,  
+			    id integer NOT NULL AUTO_INCREMENT,  
 			    kills integer, 
 			    player_name text,
 			    game_id integer,
+			    PRIMARY KEY (id),
 			    FOREIGN KEY (game_id) REFERENCES GAMES(game_id)
 			);';
 
@@ -56,7 +57,7 @@ class Schema
 			$p_sql = Connection::getInstance()->exec($create_table_players);
 			$p_sql = Connection::getInstance()->exec($create_table_killsbymens);
 		} 
-		catch(PDOException $e)
+		catch(\PDOException $e)
 		{
 	        echo $e->getMessage();
 		}		
@@ -87,6 +88,7 @@ class Schema
 			$p_sql->bindValue(':time_finish', $game->getTimeFinish());
 			$result = $p_sql->execute();
 			self::setPlayerDB($game);
+			self::setKillsByMensDB($game);
 			return $result;
 		}
 		catch (\PDOException $e)
@@ -95,23 +97,34 @@ class Schema
 		}
 	}
 
-	public static function setPlayerDB(Game $game)
+	private static function setPlayerDB(Game $game)
 	{
 		$all_players = $game->getKills();
 		if (!is_array($all_players))
 			return;
 
 		try
-		{
-			$sql_verify = 'SELECT * FROM Players WHERE player_id=?';
-			if (self::checkValueExists(1, $sql_verify))
-			{
-				#return;
-			}
-
-			#die(var_dump($all_players));
+		{				
 			foreach ($all_players as $player) 
 			{
+				
+				// verifica se o player existe. Se existir, altera a linha existente. Se não existir, cria uma nova entrada.
+				$sql_verify = 'SELECT kills, player_id FROM players WHERE player_name = :player_name';
+				$p_sql = Connection::getInstance()->prepare($sql_verify);
+				$p_sql->bindValue(":player_name", $player->getName());
+				$p_sql->execute();
+				$player_result = $p_sql->fetch(PDO::FETCH_ASSOC);
+				if( $player_result )
+				{
+					$sql_update = 'UPDATE PLAYERS SET KILLS = :old_kills + :new_kills WHERE player_id = :player_id';
+					$pdo_update = Connection::getInstance()->prepare($sql_update);
+					$pdo_update->bindValue(":old_kills", $player_result['kills']);
+					$pdo_update->bindValue(":new_kills", $player->getKills());
+					$pdo_update->bindValue(":player_id", $player_result['player_id']);
+					$pdo_update->execute();
+					continue;
+				}
+
 				$sql = 'INSERT INTO Players (
 					in_game_id,
 					kills,
@@ -129,13 +142,59 @@ class Schema
 				$p_sql->bindValue(':game_id', $game->getGameId());
 				$result = $p_sql->execute();				
 			}
-			return $result;
 		}
 		catch (\PDOException $e)
 		{
 			echo $e->getMessage();
 		}		
 	}
+
+	private static function setKillsByMensDB(Game $game)
+	{
+		$kills_by_mens = $game->getKillsByMens();
+		if (!is_array($kills_by_mens))
+			return;
+
+		try
+		{
+			foreach ($kills_by_mens as $arma) 
+			{
+				// verifica se a entrada existe. Se existir, altera a linha existente. Se não existir, cria uma nova entrada.
+				$sql_verify = 'SELECT kills, id FROM killsbymens WHERE player_name = :player_name';
+				$p_sql = Connection::getInstance()->prepare($sql_verify);
+				$p_sql->bindValue(":player_name", $arma->getName());
+				$p_sql->execute();
+				$arma_result = $p_sql->fetch(PDO::FETCH_ASSOC);
+				if( $arma_result )
+				{
+					$sql_update = 'UPDATE killsbymens SET KILLS = :old_kills + :new_kills WHERE id = :id';
+					$pdo_update = Connection::getInstance()->prepare($sql_update);
+					$pdo_update->bindValue(":old_kills", $arma_result['kills']);
+					$pdo_update->bindValue(":new_kills", $arma->getKills());
+					$pdo_update->bindValue(":id", $arma_result['id']);
+					$pdo_update->execute();
+					continue;
+				}				
+				$sql = 'INSERT INTO KILLSBYMENS (
+					kills,
+					player_name,
+					game_id)
+					VALUES (
+					:kills,
+					:player_name,
+					:game_id)';
+				$p_sql = Connection::getInstance()->prepare($sql);
+				$p_sql->bindValue(':kills', $arma->getKills());
+				$p_sql->bindValue(':player_name', $arma->getName());
+				$p_sql->bindValue(':game_id', $game->getGameId());
+				$result = $p_sql->execute();				
+			}
+		}
+		catch (\PDOException $e)
+		{
+			echo $e->getMessage();
+		}		
+	}	
 
 	private static function checkValueExists($id, $sql)
 	{
@@ -144,10 +203,30 @@ class Schema
 		$stmt->execute();
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-		if( $row)
+		if($row)
 		{
-		    return true;
+		    return $row;
 		}
 		return false;
+	}
+
+	public function queryAllPlayers()
+	{
+
+	}
+
+	public static function queryAllKillsByMens()
+	{
+		try 
+		{
+			$sql = 'SELECT game_id, sum(kills) FROM KILLSBYMENS GROUP BY player_name';
+			$result = Connection::getInstance()->query($sql);
+			$lista = $result->fetchAll(PDO::FETCH_ASSOC);
+			return $lista;
+		} 
+		catch (Exception $e) 
+		{
+		echo $e->getMessage();
+		}
 	}
 }
