@@ -95,4 +95,24 @@ class Game
 		$k->incrementKill();
 		$this->kills_by_mens[] = $k;		
 	}
+
+	public function getGameId()
+	{
+		return $this->game_id;
+	}
+
+	public function getTotalKills()
+	{
+		return $this->total_kills;
+	}
+
+	public function getTimeStart()
+	{
+		return $this->time_start;
+	}
+
+	public function getTimeFinish()
+	{
+		return $this->time_finish;
+	}	
 }

@@ -1,26 +1,29 @@
 <?php 
 namespace LogParser\classes\Database;
+use \PDO;
+use LogParser\classes\Game;
 
 /**
  * Classe responsável por criar as tabelas do banco de dados caso a tabela ainda não exista.
  */
 class Schema
 {
-	
-	public function __construct()
-	{
-		$sql = 'SELECT count(*) FROM GAMES';
+	public static $instance;
 
+	public static function createAllTables()
+	{
+		$sql = 'SELECT 1 FROM PLAYERS LIMIT 1';
+		$p_sql = Connection::getInstance();
 	    // Result is either boolean FALSE (no table found) or PDOStatement Object (table found)
 	    try{
-	    	gettype(Connection::getInstance()->exec($sql)) == 'integer';
+	    	$result = $p_sql->query($sql);
 	    }catch (\PDOException $e){
-	    	$this->createTables();
+	    	self::createTables();
 	    }
-	    return true;
+	    return;
 	}
 
-	private function createTables()
+	private static function createTables()
 	{
 		try
 		{
@@ -51,7 +54,79 @@ class Schema
 		} 
 		catch(PDOException $e)
 		{
-	        echo $e>getMessage();
+	        echo $e->getMessage();
 		}		
+	}
+
+	public static function setGameDB(Game $game)
+	{
+		try
+		{
+			$sql_verify = 'SELECT * FROM Games WHERE game_id=?';
+			if (self::checkValueExists($game->getGameId(), $sql_verify))
+				return;
+
+			$sql = 'INSERT INTO Games (
+				game_id,
+				total_kills,
+				time_start,
+				time_finish)
+				VALUES (
+				:game_id,
+				:total_kills,
+				:time_start,
+				:time_finish)';
+			$p_sql = Connection::getInstance()->prepare($sql);
+			$p_sql->bindValue(':game_id', $game->getGameId());
+			$p_sql->bindValue(':total_kills', $game->getTotalKills());
+			$p_sql->bindValue(':time_start', $game->getTimeStart());
+			$p_sql->bindValue(':time_finish', $game->getTimeFinish());
+			$result = $p_sql->execute();
+			return $result;
+		}
+		catch (PDOException $e)
+		{
+			echo $e->getMessage();
+		}
+	}
+
+	public static function setPlayerDB(Player $player)
+	{
+		try
+		{
+			$sql = 'INSERT INTO player (
+				game_id,
+				total_kills,
+				time_start,
+				time_finish)
+				VALUES (
+				:game_id,
+				:total_kills,
+				:time_start,
+				:time_finish)';
+			$p_sql = Connection::getInstance()->prepare($sql);
+			$p_sql->bindValue(':game_id', $player->getName());
+			$p_sql->bindValue(':total_kills', $player->getName());
+			$p_sql->bindValue(':time_start', $player->getName());
+			$p_sql->bindValue(':time_finish', $player->getName());
+		}
+		catch (PDOException $e)
+		{
+			echo $e->getMessage();
+		}		
+	}
+
+	private static function checkValueExists($id, $sql)
+	{
+		$stmt = $p_sql = Connection::getInstance()->prepare($sql);
+		$stmt->bindParam(1, $id, PDO::PARAM_INT);
+		$stmt->execute();
+		$row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		if( $row)
+		{
+		    return true;
+		}
+		return false;
 	}
 }

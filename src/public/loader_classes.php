@@ -5,4 +5,4 @@
 	require_once 'classes/Database/Connection.php';
 	require_once 'classes/Database/Schema.php';
 	use LogParser\classes\Database\Schema;	
-	$schema = new Schema();
+	Schema::createAllTables();

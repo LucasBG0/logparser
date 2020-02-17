@@ -35,6 +35,10 @@ class Connection
             	PDO::ATTR_ORACLE_NULLS, 
             	PDO::NULL_EMPTY_STRING
             );
+
+            self::$instance->setAttribute(
+            	PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true
+            );
         }
   
         return self::$instance;

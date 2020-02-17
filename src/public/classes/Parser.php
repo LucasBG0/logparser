@@ -1,6 +1,8 @@
 <?php
 namespace LogParser\classes;
 
+use LogParser\classes\Database\Schema;
+
 /**
  * Classe responsável por percorrer o arquivo de log e identificar os dados de jogo
  */
@@ -53,7 +55,11 @@ class Parser
 
 				// Fim do jogo
 				if( preg_match('/(\d{1,3}:\d{2}) ShutdownGame:/', $buffer, $match_time_finish) )
+				{
 					$game->setTimeFinish($match_time_finish[1]);
+					// Salva a partida no banco de dados na tabela GAMES
+					var_dump(Schema::setGameDB($game));
+				}
 
 			}
 			$linha++;
