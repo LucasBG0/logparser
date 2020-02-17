@@ -11,6 +11,22 @@ body .container .ranking h1 {
 }
 body .container .ranking input {
   margin-bottom: 1.5rem;
+  height: 3rem;
+  font-size: 1rem;
+  background-color: #dadada;
+}
+body .container .ranking input[type=text] {
+  width: 70%;
+  border: 2px solid white;
+  margin-right: -6px;
+  box-sizing: border-box;
+  padding: 0.5rem;
+}
+body .container .ranking input[type=submit] {
+  width: 29.6%;
+  background-color: #646363;
+  color: #f7a600;
+  border: none;
 }
 body .container .ranking table {
   border: none;
@@ -23,11 +39,15 @@ body .container .ranking table th {
   padding: 1rem 0.4rem;
 }
 body .container .ranking table th img {
-  width: 25px;
+  width: 30px;
+  margin-bottom: -3px;
 }
 body .container .ranking table td {
   color: #fefefe;
   padding: 1.2rem 0 0.4rem 0.4rem;
+}
+body .container .ranking table td.negativo {
+  color: #f7a600;
 }
 body .container .ranking table td:nth-child(1), body .container .ranking table th:nth-child(1) {
   text-align: left;

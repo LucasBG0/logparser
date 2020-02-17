@@ -13,7 +13,7 @@
 		<div class="ranking">
 			<h1>RANKING</h1>
 			<form action="index.php">
-				<input type="text" name="busca">
+				<input type="text" name="busca" placeholder="Buscar por nome">
 				<input type="submit" value="Buscar">
 				<table cellspacing="0" cellpadding="0">
 					<tr>
@@ -25,7 +25,7 @@
 					<?php foreach ($lista_players as $key => $player): ?>
 					<tr>	
 						<td><?php echo $player['player_name']?></td>
-						<td><?php echo $player['kills']?></td>
+						<td<?php echo (boolval($player['kills'] < 0)) ? ' class="negativo"' : '' ?>><?php echo $player['kills']?></td>
 					</tr>	
 					<?php endforeach; ?>	
 				</table>

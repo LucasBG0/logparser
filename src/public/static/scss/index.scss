@@ -10,7 +10,24 @@ body{
 			}
 			input{
 				margin-bottom: 1.5rem;
+				height: 3rem;
+				font-size: 1rem;
+				background-color: #dadada;
 			}
+			input[type=text]{
+				width: 70%;
+				border: 2px solid white;
+				margin-right: -6px;
+			    box-sizing: border-box;
+			    padding: .5rem;				
+
+			}
+			input[type=submit] {
+				width: 29.6%;
+				background-color: #646363;
+				color: #f7a600;
+				border: none;
+			}			
 			table{
 				border: none;
 				width: 100%;
@@ -20,12 +37,16 @@ body{
 					font-size: 1.7rem;
 					padding: 1rem .4rem;			
 					img{
-						width: 25px;
+						width: 30px;
+						margin-bottom: -3px;
 					}
 				}
 				td{
 					color: #fefefe;
 					padding: 1.2rem 0 .4rem .4rem;
+					&.negativo{
+						color: #f7a600;
+					}
 				}
 				td:nth-child(1), th:nth-child(1){
 					text-align: left;
@@ -41,7 +62,7 @@ body{
 				tr:nth-child(even) {
 					background-color: #7c7b7b;
 				}
-				tr:nth-child(odd) {
+				tr:nth-child(odd){
 					background-color: #646363;
 				}				
 			}
