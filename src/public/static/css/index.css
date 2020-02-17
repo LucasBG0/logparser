@@ -1,3 +1,50 @@
-
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #dadada;
+}
+body .container {
+  width: 500px;
+  margin: auto;
+}
+body .container .ranking h1 {
+  color: #000000;
+}
+body .container .ranking input {
+  margin-bottom: 1.5rem;
+}
+body .container .ranking table {
+  border: none;
+  width: 100%;
+}
+body .container .ranking table th {
+  color: #000000;
+  background-color: #f7a600;
+  font-size: 1.7rem;
+  padding: 1rem 0.4rem;
+}
+body .container .ranking table th img {
+  width: 25px;
+}
+body .container .ranking table td {
+  color: #fefefe;
+  padding: 1.2rem 0 0.4rem 0.4rem;
+}
+body .container .ranking table td:nth-child(1), body .container .ranking table th:nth-child(1) {
+  text-align: left;
+}
+body .container .ranking table td:nth-child(2) {
+  text-align: right;
+  font-weight: bold;
+  padding-right: 2.4rem;
+}
+body .container .ranking table th:nth-child(2) {
+  text-align: right;
+}
+body .container .ranking table tr:nth-child(even) {
+  background-color: #7c7b7b;
+}
+body .container .ranking table tr:nth-child(odd) {
+  background-color: #646363;
+}
 
 /*# sourceMappingURL=index.css.map */

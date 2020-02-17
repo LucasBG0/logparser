@@ -210,9 +210,28 @@ class Schema
 		return false;
 	}
 
-	public function queryAllPlayers()
+	public static function queryAllPlayers()
 	{
+		try 
+		{
+			$sql = 'SELECT player_name, kills FROM players ORDER BY KILLS DESC';
+			$result = Connection::getInstance()->query($sql);
+			$lista = $result->fetchAll(PDO::FETCH_ASSOC);
+			
+			//remove world da listagem
+			foreach ($lista as $key => $value) {
+				if ($value['player_name'] === 'world') {
+					unset($lista[$key]);
+					break;
+				}
+			}
 
+			return $lista;
+		} 
+		catch (Exception $e) 
+		{
+		echo $e->getMessage();
+		}		
 	}
 
 	public static function queryAllKillsByMens()

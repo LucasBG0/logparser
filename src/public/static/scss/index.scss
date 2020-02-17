@@ -1,0 +1,50 @@
+body{
+	font-family: 'Roboto', sans-serif;
+	background-color: #dadada;
+	.container{
+		width: 500px;
+		margin: auto;
+		.ranking{
+			h1{
+				color: #000000;
+			}
+			input{
+				margin-bottom: 1.5rem;
+			}
+			table{
+				border: none;
+				width: 100%;
+				th{
+					color: #000000;
+					background-color: #f7a600;
+					font-size: 1.7rem;
+					padding: 1rem .4rem;			
+					img{
+						width: 25px;
+					}
+				}
+				td{
+					color: #fefefe;
+					padding: 1.2rem 0 .4rem .4rem;
+				}
+				td:nth-child(1), th:nth-child(1){
+					text-align: left;
+				}				
+				td:nth-child(2){
+					text-align: right;
+					font-weight: bold;
+					padding-right: 2.4rem;
+				}
+				th:nth-child(2){
+					text-align: right;	
+				}
+				tr:nth-child(even) {
+					background-color: #7c7b7b;
+				}
+				tr:nth-child(odd) {
+					background-color: #646363;
+				}				
+			}
+		}
+	}
+}

@@ -6,17 +6,37 @@
 	<link rel="stylesheet" type="text/css" href="static/css/index.css">
 </head>
 <body>
+	<?php require_once('loader_classes.php'); ?>
+	<?php use LogParser\classes\Database\Schema; ?>
+	<?php $lista_players = Schema::queryAllPlayers(); ?>
+	<div class="container">
+		<div class="ranking">
+			<h1>RANKING</h1>
+			<form action="index.php">
+				<input type="text" name="busca">
+				<input type="submit" value="Buscar">
+				<table cellspacing="0" cellpadding="0">
+					<tr>
+						<th>NAME</th>
+						<th>
+							<img src="static/svg/poison.svg" alt="Poison">KILLS
+						</th>				
+					</tr>
+					<?php foreach ($lista_players as $key => $player): ?>
+					<tr>	
+						<td><?php echo $player['player_name']?></td>
+						<td><?php echo $player['kills']?></td>
+					</tr>	
+					<?php endforeach; ?>	
+				</table>
+			</form>				
+		</div>		
+	</div>
 	<?php
-		error_reporting(-1);
-		require_once('loader_classes.php');
-		use LogParser\classes\Parser;
-		$log = 'https://gist.githubusercontent.com/labmorales/7ebd77411ad51c32179bd4c912096031/raw/58ffbba722433c0d47d092f2bcec5ad78777a600/games.log';
-		$a = new Parser($log);
-		$a->countGames();
-		echo '<pre>';
-		#print_r($a->getKillsAllGames());
-		#print_r($games);
-		echo '</pre>';
+	echo '<pre>';
+	#print_r($lista_players);
+	#print_r($games);
+	echo '</pre>';		
 	?>
 </body>
 </html>
