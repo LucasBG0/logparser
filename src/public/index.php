@@ -24,10 +24,10 @@
 						</th>				
 					</tr>
 					<tbody id="inicial-result-container">
-						<?php foreach ($lista_players as $key => $player): ?>
+						<?php foreach ($lista_players as $player): ?>
 						<tr>	
-							<td><?php echo $player['player_name']?></td>
-							<td<?php echo (boolval($player['kills'] < 0)) ? ' class="negativo"' : '' ?>><?php echo $player['kills']?></td>
+							<td><?php echo $player->player_name?></td>
+							<td<?php echo (boolval($player->kills < 0)) ? ' class="negativo"' : '' ?>><?php echo $player->kills?></td>
 						</tr>	
 						<?php endforeach; ?>
 					</tbody>

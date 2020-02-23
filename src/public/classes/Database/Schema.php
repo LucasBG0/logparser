@@ -216,11 +216,11 @@ class Schema
 		{
 			$sql = 'SELECT player_name, kills FROM players ORDER BY KILLS DESC';
 			$result = Connection::getInstance()->query($sql);
-			$lista = $result->fetchAll(PDO::FETCH_ASSOC);
+			$lista = $result->fetchAll(PDO::FETCH_OBJ);
 			
 			//remove world da listagem
 			foreach ($lista as $key => $value) {
-				if ($value['player_name'] === 'world') {
+				if ($value->player_name === 'world') {
 					unset($lista[$key]);
 					break;
 				}
@@ -249,11 +249,11 @@ class Schema
 			$result ="" ;
 			if ($Count  > 0)
 			{
-				while($data=$stmt->fetch(PDO::FETCH_ASSOC)) 
+				while($data=$stmt->fetch(PDO::FETCH_OBJ)) 
 				{
-					$negativo = (boolval($data['kills'] < 0)) ? ' class="negativo"' : '';
-					$result = $result .'<tr><td>' . $data['player_name'] . '
-					</td><td'.$negativo . '>' . $data['kills'] . '</td></tr>';					  
+					$negativo = (boolval($data->kills < 0)) ? ' class="negativo"' : '';
+					$result = $result .'<tr><td>' . $data->player_name . '
+					</td><td'.$negativo . '>' . $data->kills . '</td></tr>';					  
 				}
 			return $result;
 			}
@@ -279,11 +279,11 @@ class Schema
 			$result ="" ;
 			if ($Count  > 0)
 			{
-				while($data=$stmt->fetch(PDO::FETCH_ASSOC)) 
+				while($data=$stmt->fetch(PDO::FETCH_OBJ)) 
 				{
-					$negativo = (boolval($data['kills'] < 0)) ? ' class="negativo"' : '';
-					$result = $result .'<tr><td>' . $data['player_name'] . '
-					</td><td'.$negativo . '>' . $data['kills'] . '</td></tr>';					  
+					$negativo = (boolval($data->kills < 0)) ? ' class="negativo"' : '';
+					$result = $result .'<tr><td>' . $data->player_name . '
+					</td><td'.$negativo . '>' . $data->kills . '</td></tr>';					  
 				}
 			return $result;
 			}			
