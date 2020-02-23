@@ -1,6 +1,8 @@
 <?php
 namespace LogParser\classes;
 
+use LogParser\classes\Database\Schema;
+
 /**
  * Classe responsável por armazenar o nome e a quantidade de kills do jogador
  */
@@ -40,6 +42,29 @@ class Player
 	public function getInGameId()
 	{
 		return $this->in_game_id;
+	}
+
+	public static function viewPlayerItem()
+	{
+		$lista_players = Schema::queryAllPlayers();
+		$html = file_get_contents('static/html/player_item.html');
+		$items = '';
+
+		foreach ($lista_players as $player) {
+			
+			$item = str_replace('{player_name}', $player->player_name, $html);
+			$item = str_replace('{kills}', $player->kills, $item);
+			if ($player->kills < 0) 
+			{
+				$item = str_replace('{classe}', ' class="negativo"', $item);
+			}else
+			{
+				$item = str_replace('{classe}', '', $item);
+			}	
+			$items .= $item;
+		}
+
+		return $items;
 	}
 
 }

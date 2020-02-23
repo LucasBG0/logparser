@@ -5,9 +5,7 @@
 	require_once 'classes/Player.php';
 	require_once 'classes/Database/Connection.php';
 	require_once 'classes/Database/Schema.php';
-	use LogParser\classes\Database\Schema;	
-	Schema::createAllTables();
-	use LogParser\classes\Parser;
+	LogParser\classes\Database\Schema::createAllTables();
 	$log = 'logs/games.log';
-	$a = new Parser($log);
+	$a = new LogParser\classes\Parser($log);
 	$games = $a->countGames();

@@ -7,8 +7,6 @@
 </head>
 <body>
 	<?php require_once('loader_classes.php'); ?>
-	<?php use LogParser\classes\Database\Schema; ?>
-	<?php $lista_players = Schema::queryAllPlayers(); ?>
 	<div class="container">
 		<div class="ranking">
 			<span><a src="#" id="ranking">RANKING</a></span>
@@ -24,12 +22,7 @@
 						</th>				
 					</tr>
 					<tbody id="inicial-result-container">
-						<?php foreach ($lista_players as $player): ?>
-						<tr>	
-							<td><?php echo $player->player_name?></td>
-							<td<?php echo (boolval($player->kills < 0)) ? ' class="negativo"' : '' ?>><?php echo $player->kills?></td>
-						</tr>	
-						<?php endforeach; ?>
+						<?php echo LogParser\classes\Player::viewPlayerItem(); ?>
 					</tbody>
 					<tbody id="inicial-result-container2">
 					</tbody>
