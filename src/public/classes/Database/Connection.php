@@ -9,16 +9,21 @@ class Connection
 {
 
 	public static $instance;
-	private static $dbname = 'parser';
-	private static $user = 'parser';
-	private static $password = 'parser';
+	private static $dbname;
+	private static $user;
+	private static $password;
 	// host é o nome do container do mysql
-	private static $host = 'parser-mysql';
+	private static $host;
 
     public static function getInstance() 
     {
         if (!isset(self::$instance)) 
         {
+            self::$dbname = getenv('MYSQL_DATABASE');
+            self::$user = getenv('MYSQL_USER');
+            self::$password = getenv('MYSQL_PASSWORD');
+            self::$host = getenv('MYSQL_HOST');
+
             self::$instance = new PDO(
             	'mysql:host=' . self::$host . ';dbname=' . self::$dbname, 
             	self::$user, 
